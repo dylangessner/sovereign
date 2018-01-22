@@ -95,10 +95,27 @@ function normalizeBlockstackUser(profile, user) {
   });
 }
 
+function normalizeCivicUser(profile, user) {
+  const credential = profile.credentials || [];
+
+  credential.push({
+      source: 'civic',
+      URL: undefined, // there is no civic user profile URL
+      validated: user.services.civic.userData.data[0].isValid,
+  });
+  // right now civic only passes user email
+  const username = generateAvailableUsername(user.services.civic.userData.data.label['contact.personal.email'].value);
+
+  return _.extend(user, {
+    username,
+    });
+}
+
 const normalizers = {
   facebook: normalizeFacebookUser,
   twitter: normalizeTwitterUser,
-  blockstack: normalizeBlockstackUser
+  blockstack: normalizeBlockstackUser,
+  civic: normalizeCivicUser
 };
 
 /**

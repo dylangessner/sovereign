@@ -11,6 +11,7 @@ export default class SocialMediaLogin extends Component {
     this.handleTwitterLogin = this.handleTwitterLogin.bind(this);
     this.handleAgoraLogin = this.handleAgoraLogin.bind(this);
     this.handleBlockstackLogin = this.handleBlockstackLogin.bind(this);
+    this.handleCivicLogin = this.handleCivicLogin.bind(this);
   }
 
   handleFacebookLogin() {
@@ -35,6 +36,14 @@ export default class SocialMediaLogin extends Component {
         throw new Meteor.Error('Blockstack login failed', err.reason);
       }
     })
+  }
+
+  handleCivicLogin() {
+    Meteor.loginWithCivic({}, function (err) {
+      if (err.reason) {
+          throw new Meteor.Error('Civic login failed', err.reason);
+      }
+    });
   }
 
   handleAgoraLogin() {
@@ -62,6 +71,9 @@ export default class SocialMediaLogin extends Component {
         </div>
         <div id="blockstack-login" className="button login-button blockstack" onClick={this.handleBlockstackLogin}>
           sign in with Blockstack
+        </div>
+        <div id="civic-login" className="button login-button civic" onClick={this.handleCivicLogin}>
+            Log in with Civic
         </div>
         {/* <div id="twitter-login" className="button button-social twitter" onClick={this.handleTwitterLogin} >{{_ 'twitter'}}</div> */}
       </div>
